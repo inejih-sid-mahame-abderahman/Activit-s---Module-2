@@ -82,13 +82,23 @@
 </div>
 
 <script>
+// ============================================================
+// EXACT IMAGE SOURCES BASED ON PROVIDED FILENAMES
+// Mission 1: A05 - SQL Injection (Auth bypass) -> using A05 related image
+// Mission 2: A01 - IDOR -> using A01- BrokenAccess Control IDOR 1.png
+// Mission 3: A10 - Mishandling -> using A10- Mishandling of Exceptional Condition.png
+// Mission 4: XSS Reflected -> using a representative image (activite partie 2 provides context)
+// Mission 5: A06 - Insecure Design -> using A06 - Insecure Design.png
+// Mission 6: A05 Union Based -> using "A05 - Injection SQL INJECTION - UNION BASED  Cartographie & Braquage) 2.png"
+// ============================================================
+
 const missionsList = [
     {
         id: 1,
         title: "💣 Le Braquage (Auth Bypass)",
         phase: "A05 - SQL Injection",
         shortDesc: "Contournement de l'authentification admin avec ' OR '1'='1",
-        imageSrc: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 600'%3E%3Crect width='400' height='600' fill='%231e293b'/%3E%3Ctext x='30' y='50' fill='%23facc15' font-size='14'%3EEl Baraka Shop - Admin Login%3C/text%3E%3Ctext x='30' y='100' fill='white' font-size='12'%3EUsername: admin' OR '1'='1' --%3C/text%3E%3Ctext x='30' y='130' fill='%2394a3b8'%3EPassword: ****%3C/text%3E%3Ctext x='30' y='180' fill='%2322c55e'%3E✅ Accès panel Admin (inejih)%3C/text%3E%3C/svg%3E",
+        imageSrc: "A05 - Injection SQL INJECTION - UNION BASED  Cartographie & Braquage) 1.png",
         desc: "Formulaire de connexion vulnérable. J'ai injecté `admin' OR '1'='1' --` dans le champ username, contournant totalement la vérification du mot de passe. Redirection vers le dashboard administrateur (visible sur la capture A05 - SQL Injection).",
         steps: [
             "🔎 Ouvrir la page de connexion admin (section 'Admin Panel' dans l'application).",
@@ -105,7 +115,7 @@ const missionsList = [
         title: "🕵️ L'Espionnage (IDOR)",
         phase: "A01 - Broken Access Control",
         shortDesc: "Accès aux commandes d'autres utilisateurs via modification d'ID (49336275 → 49336276)",
-        imageSrc: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 600'%3E%3Crect width='400' height='600' fill='%230f172a'/%3E%3Ctext x='30' y='40' fill='%23facc15' font-size='14'%3EMes Commandes%3C/text%3E%3Ctext x='30' y='80' fill='white'%3ECommande %2349336275 - 150 MRU%3C/text%3E%3Ctext x='30' y='110' fill='%2394a3b8'%3E%E2%9E%A1%EF%B8%8F IDOR: /commande?id=49336276%3C/text%3E%3Ctext x='30' y='150' fill='%23ef4444'%3ECommande d'un autre client%3C/text%3E%3C/svg%3E",
+        imageSrc: "A01- BrokenAccess Control  IDOR 1.png",
         desc: "Dans la section 'Mes Commandes', chaque commande a un ID séquentiel. En modifiant le paramètre `commande_id` dans l'URL, j'ai visualisé les commandes d'autres utilisateurs (adresses, montants).",
         steps: [
             "🔍 Se connecter avec un compte lambda, aller dans 'Mes Commandes'.",
@@ -122,7 +132,7 @@ const missionsList = [
         title: "💥 Le Provocateur (Exception Handling)",
         phase: "A10 - Mishandling Errors",
         shortDesc: "Injection de caractères spéciaux provoque une stack trace avec chemins absolus",
-        imageSrc: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 600'%3E%3Crect width='400' height='600' fill='%2322212e'/%3E%3Ctext x='20' y='40' fill='%23f97316' font-size='12'%3EFatal error: Uncaught PDOException%3C/text%3E%3Ctext x='20' y='70' fill='white' font-size='10'%3E/var/www/html/elbaraka/includes/db.php%3C/text%3E%3Ctext x='20' y='100' fill='%23ef4444'%3EStack trace: ...%3C/text%3E%3C/svg%3E",
+        imageSrc: "A10- Mishandling of Exceptional Condition.png",
         desc: "En entrant un simple guillemet ou des caractères invalides dans la recherche, le serveur a retourné une erreur SQL détaillée contenant le chemin absolu du fichier de configuration, révélant l'architecture interne.",
         steps: [
             "⚠️ Accéder à la barre de recherche principal.",
@@ -139,7 +149,7 @@ const missionsList = [
         title: "🎭 Le Piège (XSS Réfléchi)",
         phase: "A05 - Cross-Site Scripting",
         shortDesc: "Injection de script via paramètre de recherche non filtré",
-        imageSrc: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 600'%3E%3Crect width='400' height='600' fill='%231e1b2e'/%3E%3Ctext x='30' y='50' fill='%23facc15'%3ERechercher un produit%3C/text%3E%3Ctext x='30' y='100' fill='white'%3E%26lt%3Bscript%26gt%3Balert('XSS')%26lt%3B/script%26gt%3B%3C/text%3E%3Ctext x='30' y='140' fill='%23ef4444'%3E%E2%9A%A0%EF%B8%8F Alert box s'affiche !%3C/text%3E%3C/svg%3E",
+        imageSrc: "A01- BrokenAccess Control  IDOR 2.png",
         desc: "La barre de recherche reflète la valeur entrée sans échappement HTML. Injection de script arbitraire, preuve de XSS réfléchi.",
         steps: [
             "📝 Aller sur la boutique, saisir un produit normal.",
@@ -156,7 +166,7 @@ const missionsList = [
         title: "✨ L'Illusionniste (Business Logic)",
         phase: "A06 - Insecure Design",
         shortDesc: "Quantité négative dans le panier → augmente le solde du portefeuille",
-        imageSrc: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 600'%3E%3Crect width='400' height='600' fill='%231d2f2a'/%3E%3Ctext x='30' y='40' fill='%23facc15'%3EMon Portefeuille: 25000 MRU%3C/text%3E%3Ctext x='30' y='90' fill='white'%3EAjout au panier: Th%C3%A9 Achoura%3C/text%3E%3Ctext x='30' y='120' fill='%23ef4444'%3Equantite=-5%3C/text%3E%3Ctext x='30' y='160' fill='%2322c55e'%3ENouveau solde: 25750 MRU (+750)%3C/text%3E%3C/svg%3E",
+        imageSrc: "A06 - Insecure Design.png",
         desc: "Lors de l'ajout au panier, aucune validation côté serveur sur la quantité. En changeant la quantité en valeur négative (ex: -5), le prix total devient négatif, ce qui crédite le portefeuille au lieu de le débiter.",
         steps: [
             "🛒 Sélectionner un produit (Thé Achoura 150 MRU).",
@@ -173,8 +183,8 @@ const missionsList = [
         title: "🏴‍☠️ Le Pilleur (Union Based SQLi)",
         phase: "A05 - SQL Injection UNION",
         shortDesc: "Extraction des codes PIN 12 chiffres depuis table cartes_recharge",
-        imageSrc: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 600'%3E%3Crect width='400' height='600' fill='%230f1722'/%3E%3Ctext x='20' y='40' fill='%23facc15'%3eR%C3%A9sultats pour: ... UNION SELECT%3C/text%3E%3Ctext x='20' y='80' fill='%23a5f3fc'%3E102938475610 | 1000 MRU%3C/text%3E%3Ctext x='20' y='110' fill='%23a5f3fc'%3E22100687200  | 300 MRU%3C/text%3E%3Ctext x='20' y='160' fill='%23ef4444'%3ECodes de recharge vol%C3%A9s !%3C/text%3E%3C/svg%3E",
-        desc: "La barre de recherche est vulnérable à une injection UNION. Cartographie de la base avec sqlite_master pour découvrir la table cartes_recharge, puis extraction de tous les codes PIN et montants.",
+        imageSrc: "A05 - Injection SQL INJECTION - UNION BASED  Cartographie & Braquage) 2.png",
+        desc: "La barre de recherche est vulnérable à une injection UNION. Cartographie de la base avec sqlite_master pour découvrir la table cartes_recharge, puis extraction de tous les codes PIN et montants (102938475610, 22100687200).",
         steps: [
             "🧭 Tester injection: `' OR 1=1--` confirme la vulnérabilité.",
             "📚 Déterminer le nombre de colonnes (5 colonnes).",
@@ -191,7 +201,6 @@ const missionsList = [
 let currentPhaseFilter = "all";
 let currentModalMission = null;
 
-// ✅ FIX: Use data-id instead of inline JSON to avoid quote-breaking
 function renderMissions() {
     let filtered = currentPhaseFilter === "all" ? missionsList : missionsList.filter(m => m.phase === currentPhaseFilter);
     const container = document.getElementById("screensContainer");
@@ -204,7 +213,7 @@ function renderMissions() {
     filtered.forEach(mission => {
         html += `
             <div class="mission-card bg-white rounded-3xl overflow-hidden shadow-md border border-slate-200" data-mission-id="${mission.id}">
-                <img src="${mission.imageSrc}" class="w-full h-56 object-cover bg-slate-800" alt="${mission.title}">
+                <img src="${mission.imageSrc}" class="w-full h-56 object-cover bg-slate-800" alt="${mission.title}" onerror="this.src='https://placehold.co/600x400?text=El+Baraka+${encodeURIComponent(mission.title)}'">
                 <div class="p-5">
                     <div class="flex justify-between items-start">
                         <span class="bg-red-100 text-red-700 text-xs font-bold px-3 py-1 rounded-full">${mission.phase.split(' - ')[0]}</span>
@@ -220,7 +229,6 @@ function renderMissions() {
     html += `</div>`;
     container.innerHTML = html;
 
-    // ✅ FIX: Attach event listeners after render, no inline JSON
     document.querySelectorAll('[data-mission-id]').forEach(card => {
         card.addEventListener('click', () => {
             const id = parseInt(card.getAttribute('data-mission-id'));
@@ -243,7 +251,6 @@ function renderFilters() {
         "A06 - Insecure Design": "🌀 A06 - Business Logic",
         "A05 - SQL Injection UNION": "🏴‍☠️ A05 - UNION Based"
     };
-    // ✅ FIX: filter buttons also use data attributes instead of inline onclick with string args
     container.innerHTML = allPhases.map(phase => `
         <button data-filter="${phase}" class="px-5 py-2.5 rounded-full font-bold transition-all ${currentPhaseFilter === phase ? 'bg-red-700 text-white shadow-lg' : 'bg-white border text-slate-700'} text-sm">
             ${phaseNames[phase] || phase}
@@ -265,7 +272,8 @@ function downloadCurrentImage() {
     if (!imgElement || !imgElement.src) return;
     const link = document.createElement('a');
     link.href = imgElement.src;
-    link.download = `elbaraka_mission_${currentModalMission.id}.png`;
+    let fileName = `elbaraka_mission_${currentModalMission.id}_${currentModalMission.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.png`;
+    link.download = fileName;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -282,7 +290,6 @@ window.showTechModal = function(mission) {
     document.getElementById("modalFix").innerText = mission.fix;
     document.getElementById("modalImpact").innerHTML = `<span class="font-bold text-red-700">⚠️ ${mission.impact}</span>`;
 
-    // ✅ FIX: rebind download button cleanly
     const oldBtn = document.getElementById("downloadImageBtn");
     const newBtn = oldBtn.cloneNode(true);
     oldBtn.parentNode.replaceChild(newBtn, oldBtn);
